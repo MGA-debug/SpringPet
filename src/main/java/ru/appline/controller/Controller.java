@@ -27,8 +27,11 @@ public class Controller {
     }
 
     @GetMapping(value = "/getPet", consumes = "application/json", produces = "application/json")
-    public Pet getPet(@RequestBody Map<String, Integer> id) {
-        return PetModel.getInstance().getFromList(id.get("id"));
+    public String getPet(@RequestBody Map<String, Integer> id) {
+        if (!PetModel.getInstance().getAll().containsKey(id.get("id"))) {
+            return "Sorry, there is no pet with this id";
+        } else
+            return PetModel.getInstance().getFromList(id.get("id")).toString();
     }
 
     @DeleteMapping(value = "/deletePet", consumes = "application/json", produces = "application/json")
